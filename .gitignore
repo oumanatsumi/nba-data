@@ -79,3 +79,15 @@ data/processed/
 # Temporary files
 *.tmp
 *.temp
+
+# Kaggle archives (too large for GitHub)
+archive/
+archive-player/
+archive-stats/
+
+# Claude
+.claude/
+.scratch/
+
+# Memory
+MEMORY.md
