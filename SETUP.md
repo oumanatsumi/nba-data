@@ -21,9 +21,32 @@ nba_api 在 2024-2025 年被 stats.nba.com 的 Akamai TLS 指纹识别拦截，�
 
 ## 使用的 3 个 Kaggle 数据集
 
-1. `wyattowalsh/basketball` - 球员/球队基础、比赛记录
-2. `eoinamoore/historical-nba-data` - 单场 Box Score、进阶统计
-3. `sumitrodatta/nba-aba-baa-stats` - BBR 专属进阶（PER/WS/BPM/VORP）
+### 1. NBA Database (wyattowalsh)
+
+- **下载链接**: https://www.kaggle.com/datasets/wyattowalsh/basketball
+- **格式**: SQLite / CSV
+- **大小**: ~2.3GB
+- **内容**: 球员基本信息、球队信息、比赛记录、每节比分、Play-by-Play
+- **覆盖**: 1946-47 至今，每日更新
+- **解压到**: `archive/`
+
+### 2. NBA Dataset: Box Scores and Stats (eoinamoore)
+
+- **下载链接**: https://www.kaggle.com/datasets/eoinamoore/historical-nba-data-and-player-box-scores
+- **格式**: CSV / Parquet
+- **大小**: ~1.3GB
+- **内容**: 球员单场 Box Score、球队统计、进阶统计（ORtg/DRtg/TS%/USG%/PIE 等）
+- **覆盖**: 1947 至今，持续维护
+- **解压到**: `archive-player/`
+
+### 3. NBA Stats (1947-present) (sumitrodatta)
+
+- **下载链接**: https://www.kaggle.com/datasets/sumitrodatta/nba-aba-baa-stats
+- **格式**: CSV
+- **大小**: ~20MB
+- **内容**: Basketball-Reference 专属进阶统计（PER/WS/BPM/VORP）、季后赛统计、球队赛季总结
+- **覆盖**: 1947 至今，持续更新
+- **解压到**: `archive-stats/`
 
 ## 数据量
 
@@ -55,7 +78,7 @@ cd backend && alembic upgrade head
 ```
 
 ### 3. 下载 Kaggle 数据集
-下载 3 个数据集，分别解压到 archive/、archive-player/、archive-stats/
+下载上面 3 个数据集，分别解压到 `archive/`、`archive-player/`、`archive-stats/`
 
 ### 4. 导入数据
 ```powershell
