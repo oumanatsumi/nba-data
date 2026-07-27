@@ -91,3 +91,5 @@ archive-stats/
 
 # Memory
 MEMORY.md
+
+*.zip
