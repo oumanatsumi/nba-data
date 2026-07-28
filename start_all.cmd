@@ -10,7 +10,7 @@ echo   NBA Data API - Start All
 echo =============================================
 echo.
 
-echo [1/3] PostgreSQL...
+echo [1/4] PostgreSQL...
 2>nul "%PYTHON%" -c "from sqlalchemy import create_engine,text;from dotenv import load_dotenv;import os;load_dotenv(os.path.join(r'%PROJECT_ROOT%','.env'));engine=create_engine(f'postgresql://{os.getenv(\"POSTGRES_USER\",\"postgres\")}:{os.getenv(\"POSTGRES_PASSWORD\",\"postgres\")}@localhost:5432/{os.getenv(\"POSTGRES_DB\",\"nba_data\")}');engine.connect().execute(text('SELECT 1'))" >nul 2>&1 & if !errorlevel! equ 0 (
     echo   [OK] PostgreSQL already running
     goto :pg_done
@@ -36,19 +36,23 @@ echo   [OK] PostgreSQL ready
 :pg_done
 
 echo.
-echo [2/3] Data check...
+echo [2/4] Data check...
 for /f %%a in ('2^>^&1 "%PYTHON%" -c "from sqlalchemy import create_engine,text;from dotenv import load_dotenv;import os;load_dotenv(os.path.join(r'%PROJECT_ROOT%','.env'));engine=create_engine(f'postgresql://{os.getenv(\"POSTGRES_USER\",\"postgres\")}:{os.getenv(\"POSTGRES_PASSWORD\",\"postgres\")}@localhost:5432/{os.getenv(\"POSTGRES_DB\",\"nba_data\")}');p=engine.connect().execute(text('SELECT COUNT(*) FROM players')).scalar();g=engine.connect().execute(text('SELECT COUNT(*) FROM games')).scalar();print(f'{p} players, {g} games')"') do echo   [OK] %%a
 
 echo.
-echo [3/3] Starting API server...
-echo.
-echo   =============================================
-echo     Server  : http://localhost:%PORT%
-echo     Swagger : http://localhost:%PORT%/docs
-echo     Health  : http://localhost:%PORT%/health
-echo   =============================================
-echo     Press Ctrl+C to stop
-echo.
+echo [3/4] Starting API server...
+start "NBA API" cmd /c "cd /d "%PROJECT_ROOT%backend" && "%PYTHON%" -m uvicorn app.main:app --host 0.0.0.0 --port %PORT% --reload && pause"
 
-cd /d "%PROJECT_ROOT%backend"
-"%PYTHON%" -m uvicorn app.main:app --host 0.0.0.0 --port %PORT% --reload
+echo.
+echo [4/4] Starting Frontend...
+start "NBA Frontend" cmd /c "cd /d "%PROJECT_ROOT%frontend" && npm run dev && pause"
+
+echo.
+echo   =============================================
+echo     API      : http://localhost:%PORT%
+echo     Swagger  : http://localhost:%PORT%/docs
+echo     Frontend : http://localhost:5173
+echo   =============================================
+echo     Close each window to stop its service.
+echo.
+pause
