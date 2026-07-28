@@ -1,4 +1,4 @@
-﻿import { useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import type { Player, PlayerSeasonStats, Team, RosterPlayer, TeamSeasonStats } from "@/types";
 
 const BASE = "/api/v1";
