@@ -99,7 +99,7 @@ async def get_player_season_stats(
             "usage_rate", "win_shares", "box_plus_minus",
             "value_over_replacement_player"]
 
-    return [{k: (float(v) if v is not None else None) for k, v in zip(cols, row)} for row in rows]
+    return [{k: (v) for k, v in zip(cols, row)} for row in rows]
 
 
 @router.get("/players/{player_id}/career", response_model=PlayerCareerResponse, tags=["Players"])
