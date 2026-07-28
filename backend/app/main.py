@@ -1,4 +1,4 @@
-"""FastAPI application entry point"""
+﻿"""FastAPI application entry point"""
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.core.config import settings
@@ -20,43 +20,34 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# ===== Import and include routers =====
+from app.api.v1 import players, teams, games, playoffs
+
+prefix = settings.API_V1_PREFIX
+app.include_router(players.router, prefix=prefix, tags=["Players"])
+app.include_router(teams.router, prefix=prefix, tags=["Teams"])
+app.include_router(games.router, prefix=prefix, tags=["Games & Stats"])
+app.include_router(playoffs.router, prefix=prefix, tags=["Playoffs"])
+
 
 @app.on_event("startup")
-async def startup_event():
-    """Application startup event"""
-    print(f"Starting {settings.APP_NAME} v{settings.APP_VERSION}")
-
-
-@app.on_event("shutdown")
-async def shutdown_event():
-    """Application shutdown event"""
-    print("Shutting down application")
+async def startup():
+    print(f"NBA Data API v{settings.APP_VERSION} started")
+    print(f"  Docs: http://localhost:8000/docs")
 
 
 @app.get("/")
 async def root():
-    """Root endpoint"""
     return {
-        "message": "Welcome to NBA Data API",
+        "message": "NBA Data API",
         "version": settings.APP_VERSION,
         "docs": "/docs",
     }
 
 
 @app.get("/health")
-async def health_check():
-    """Health check endpoint"""
+async def health():
     return {"status": "healthy"}
-
-
-# Import and include routers
-from app.api.v1 import players, teams, games, playoffs
-
-api_prefix = settings.API_V1_PREFIX  # "/api/v1"
-app.include_router(players.router, prefix=api_prefix, tags=["Players"])
-app.include_router(teams.router, prefix=api_prefix, tags=["Teams"])
-app.include_router(games.router, prefix=api_prefix, tags=["Games & Stats"])
-app.include_router(playoffs.router, prefix=api_prefix, tags=["Playoffs"])
 
 
 if __name__ == "__main__":
