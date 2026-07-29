@@ -17,6 +17,7 @@ export interface Player {
 export interface PlayerSeasonStats {
   season_id: string;
   team_id: number;
+  team_abbreviation?: string;
   games_played?: number;
   minutes_per_game?: number;
   points_per_game?: number;

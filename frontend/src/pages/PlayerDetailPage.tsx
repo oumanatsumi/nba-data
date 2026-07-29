@@ -50,15 +50,16 @@ export default function PlayerDetailPage() {
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b text-left text-muted-foreground">
-                <th className="py-2 pr-4">赛季</th><th className="py-2 pr-4">场次</th><th className="py-2 pr-4">PPG</th>
+                <th className="py-2 pr-4">赛季</th><th className="py-2 pr-4">球队</th><th className="py-2 pr-4">场次</th><th className="py-2 pr-4">PPG</th>
                 <th className="py-2 pr-4">RPG</th><th className="py-2 pr-4">APG</th><th className="py-2 pr-4">FG%</th>
                 <th className="py-2 pr-4">3P%</th><th className="py-2 pr-4">PER</th><th className="py-2 pr-4">WS</th>
               </tr>
             </thead>
             <tbody>
               {(stats || []).slice().reverse().map((s) => (
-                <tr key={s.season_id} className="border-b hover:bg-muted/30">
+                <tr key={`${s.season_id}-${s.team_id}`} className="border-b hover:bg-muted/30">
                   <td className="py-2 pr-4 font-medium">{s.season_id}</td>
+                  <td className="py-2 pr-4">{s.team_abbreviation || "-"}</td>
                   <td className="py-2 pr-4">{s.games_played || "-"}</td>
                   <td className="py-2 pr-4">{s.points_per_game != null ? Number(s.points_per_game).toFixed(1) : "-"}</td>
                   <td className="py-2 pr-4">{s.rebounds_per_game != null ? Number(s.rebounds_per_game).toFixed(1) : "-"}</td>

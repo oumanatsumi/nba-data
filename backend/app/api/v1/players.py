@@ -79,7 +79,8 @@ async def get_player_season_stats(
         params["sid"] = season_id
 
     rows = db.execute(text(f"""
-        SELECT pss.season_id, pss.team_id, pss.games_played, pss.minutes_per_game,
+        SELECT pss.season_id, pss.team_id, t.abbreviation as team_abbreviation,
+               pss.games_played, pss.minutes_per_game,
                pss.points_per_game, pss.rebounds_per_game, pss.assists_per_game,
                pss.steals_per_game, pss.blocks_per_game, pss.field_goal_pct,
                pss.three_point_pct, pss.free_throw_pct,
@@ -87,11 +88,13 @@ async def get_player_season_stats(
                pss.usage_rate, pss.win_shares, pss.box_plus_minus,
                pss.value_over_replacement_player
         FROM player_season_stats pss
+        LEFT JOIN teams t ON pss.team_id = t.team_id
         WHERE pss.player_id = :pid {season_filter}
         ORDER BY pss.season_id
     """), params).fetchall()
 
-    cols = ["season_id", "team_id", "games_played", "minutes_per_game",
+    cols = ["season_id", "team_id", "team_abbreviation",
+            "games_played", "minutes_per_game",
             "points_per_game", "rebounds_per_game", "assists_per_game",
             "steals_per_game", "blocks_per_game", "field_goal_pct",
             "three_point_pct", "free_throw_pct",

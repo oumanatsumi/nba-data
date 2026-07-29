@@ -34,6 +34,7 @@ class PlayerListResponse(BaseModel):
 class PlayerSeasonStats(BaseModel):
     season_id: str
     team_id: int
+    team_abbreviation: Optional[str] = None
     games_played: Optional[int] = None
     minutes_per_game: Optional[float] = None
     points_per_game: Optional[float] = None
