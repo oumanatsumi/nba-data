@@ -90,6 +90,7 @@ async def get_player_season_stats(
         FROM player_season_stats pss
         LEFT JOIN teams t ON pss.team_id = t.team_id
         WHERE pss.player_id = :pid {season_filter}
+          AND t.abbreviation NOT IN ('EST', 'WST')
         ORDER BY pss.season_id
     """), params).fetchall()
 
